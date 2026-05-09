@@ -1,6 +1,6 @@
 package com.school.ume.entity;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -19,9 +19,9 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Entity
-@Table(name = "users")
+@Table(name = "students")
 @Data
-public class User {
+public class Student {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,25 +43,49 @@ public class User {
 	@Email(message = "Email should be valid")
 	private String email;
 
-	@NotNull(message = "Password is required")
-	@Column(name = "password", nullable = false)
-	private String password;
+	@NotNull(message = "Date of birth is required")
+	@Column(name = "date_of_birth", nullable = false)
+	private LocalDate dateOfBirth;
 
-	@NotNull(message = "Role is required")
-	@Column(name = "role", nullable = false, length = 20)
+	@NotNull(message = "Phone number is required")
+	@Column(name = "phone_number", nullable = false, length = 20)
+	@Size(max = 20, message = "Phone number must be at most 20 characters")
+	private String phoneNumber;
+
+	@NotNull(message = "Address is required")
+	@Column(name = "address", nullable = false, length = 500)
+	@Size(max = 500, message = "Address must be at most 500 characters")
+	private String address;
+
+	@Column(name = "profile_picture_url", length = 500)
+	@Size(max = 500, message = "Profile picture URL must be at most 500 characters")
+	private String profilePictureUrl;
+
+	@NotNull(message = "nationality is required")
+	@Column(nullable = false, length = 50)
+	@Size(max = 50, message = "Nationality must be at most 50 characters")
+	private String nationality;
+
+	@NotNull(message = "Religion is required")
+	@Column(nullable = false, length = 50)
+	@Size(max = 50, message = "Religion must be at most 50 characters")
+	private String religion;
+
 	@Enumerated(EnumType.STRING)
-	private UserRole role = UserRole.STAFF;
+	@Column(nullable = false, length = 20)
+	@NotNull(message = "Gender is required")
+	private Gender gender;
 
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false, length = 20)
 	@NotNull(message = "Status is required")
-	@Column(name = "status", nullable = false, length = 20)
-	@Enumerated(EnumType.STRING)
-	private UserStatus status = UserStatus.ACTIVE;
+	private StudentStatus status;
 
 	@Column(name = "created_at", nullable = false)
 	@CreationTimestamp
-	private LocalDateTime createdAt;
+	private LocalDate createdAt;
 
 	@Column(name = "updated_at", nullable = false)
 	@UpdateTimestamp
-	private LocalDateTime updatedAt;
+	private LocalDate updatedAt;
 }
